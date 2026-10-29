@@ -10,3 +10,6 @@ Route::get('/', function () {
 
 Route::get('/programmes', [ProgramController::class, 'index'])
     ->name('programmes');
+Route::get('/quebec', function () {
+    return view('quebec');
+})->name('quebec');
