@@ -4,10 +4,10 @@
 
 <head>
 
-    
+
     <meta charset="UTF-8">
 
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
@@ -16,24 +16,24 @@
 
 
 
-    
+
     <meta name="description" content="@yield('meta_description', 'Découvrez les aides à la rénovation énergétique au Québec et au Canada : programmes, conditions, montants et sources officielles.')">
 
 
 
-    
+
     <meta name="theme-color" content="#123C32">
 
 
 
     {{-- Tailwind CSS --}}
 
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
 
 
 
-    
+
     <script>
         tailwind.config = {
 
@@ -82,13 +82,13 @@
 
     {{-- Typographie --}}
 
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
-    
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    
+
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght\@400;500;600;700&family=Manrope:wght\@400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -1040,7 +1040,7 @@
 
                 les aides sont accordées par les organismes responsables.
 
-                </p>
+            </p>
 
 
 
@@ -1048,11 +1048,11 @@
 
                 Comment vérifions-nous les informations ?
 
-                </a>
-
-            </div>
+            </a>
 
         </div>
+
+    </div>
 
 
 
@@ -1072,24 +1072,22 @@
 
                     <span class="brand-icon" aria-hidden="true">
 
-                        <svg width="26" height="26" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor"
-                            stroke-width="1.7" stroke-linecap="round"
-                            stroke-linejoin="round">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
 
-                            
+
                             <path d="M12 21c-4-2-7-5.5-7-10V5l7-3 7 3v6c0 4.5-3 8-7 10Z" />
 
-                            
+
                             <path d="M8 14c1-4 3-6 8-7-1 4-3 7-8 7Z" />
 
-                            
+
                             <path d="M8 17c1-2 2.5-3.5 5-5" />
 
-                            
+
                         </svg>
 
-                        </span>
+                    </span>
 
 
 
@@ -1099,9 +1097,9 @@
 
                         <span class="brand-subtitle">Rénovation énergétique</span>
 
-                        </span>
+                    </span>
 
-                    </a>
+                </a>
 
 
 
@@ -1109,21 +1107,19 @@
 
                 <div class="desktop-nav">
 
-                    <a href="{{ url('/') }}"
-                        class="nav-link {{ request()->is('/') ? 'active' : '' }}">
+                    <a href="{{ url('/') }}" class="nav-link {{ request()->is('/') ? 'active' : '' }}">
 
                         Accueil
 
-                        </a>
+                    </a>
 
 
 
-                    <a href="{{ url('/quebec') }}"
-                        class="nav-link {{ request()->is('quebec') ? 'active' : '' }}">
+                    <a href="{{ url('/quebec') }}" class="nav-link {{ request()->is('quebec') ? 'active' : '' }}">
 
                         Québec
 
-                        </a>
+                    </a>
 
 
 
@@ -1132,7 +1128,7 @@
 
                         Thermopompes
 
-                        </a>
+                    </a>
 
 
 
@@ -1141,7 +1137,7 @@
 
                         Isolation
 
-                        </a>
+                    </a>
 
 
 
@@ -1150,7 +1146,7 @@
 
                         Fenêtres et portes
 
-                        </a>
+                    </a>
 
 
 
@@ -1159,9 +1155,9 @@
 
                         Aides aux ménages
 
-                        </a>
+                    </a>
 
-                    
+
                     <a href="{{ url('/contact') }}" class="nav-link {{ request()->is('contact') ? 'active' : '' }}">
                         Contact
                     </a>
@@ -1169,63 +1165,61 @@
 
 
 
-                <a href="{{ url('/sources-officielles') }}"
-                    class="nav-cta desktop-cta">
+                <a href="{{ url('/sources-officielles') }}" class="nav-cta desktop-cta">
 
                     Sources officielles
 
-                    <svg width="15" height="15" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor"                          stroke-width="2"
-                        stroke-linecap="round"                          stroke-linejoin="round" aria-hidden="true">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
 
-                        
+
                         <path d="M7 17 17 7M7 7h10v10" />
 
-                        
+
                     </svg>
 
-                    </a>
+                </a>
 
 
 
                 {{-- BOUTON DU MENU MOBILE --}}
 
-                <button type="button"                         id="menu-toggle"
-                    class="menu-toggle"                         aria-label="Ouvrir le menu"
-                    aria-controls="mobile-menu"                         aria-expanded="false">
+                <button type="button"                         id="menu-toggle" class="menu-toggle"
+                    aria-label="Ouvrir le menu" aria-controls="mobile-menu"
+                    aria-expanded="false">
 
 
 
-                    <svg id="menu-open-icon" width="23" height="23"
-                        viewBox="0 0 24 24" fill="none"                          stroke="currentColor"
-                        stroke-width="2"                          stroke-linecap="round" aria-hidden="true">
+                    <svg id="menu-open-icon" width="23" height="23" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" aria-hidden="true">
 
-                        
+
                         <path d="M4 6h16M4 12h16M4 18h16" />
 
-                        
+
                     </svg>
 
 
 
-                    <svg id="menu-close-icon" width="23" height="23"
-                        viewBox="0 0 24 24" fill="none"                          stroke="currentColor"
-                        stroke-width="2"                          stroke-linecap="round" aria-hidden="true"
-                        style="display:none">
+                    <svg id="menu-close-icon" width="23" height="23" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" aria-hidden="true" style="display:none">
 
-                        
+
                         <path d="m18 6-12 12M6 6l12 12" />
 
-                        
+
                     </svg>
 
-                    </button>
+                </button>
 
 
 
-                </nav>
+            </nav>
 
-            </div>
+        </div>
 
 
 
@@ -1237,21 +1231,19 @@
 
 
 
-                <a href="{{ url('/') }}"
-                    class="mobile-link {{ request()->is('/') ? 'active' : '' }}">
+                <a href="{{ url('/') }}" class="mobile-link {{ request()->is('/') ? 'active' : '' }}">
 
                     Accueil
 
-                    </a>
+                </a>
 
 
 
-                <a href="{{ url('/quebec') }}"
-                    class="mobile-link {{ request()->is('quebec') ? 'active' : '' }}">
+                <a href="{{ url('/quebec') }}" class="mobile-link {{ request()->is('quebec') ? 'active' : '' }}">
 
                     Aides au Québec
 
-                    </a>
+                </a>
 
 
 
@@ -1260,7 +1252,7 @@
 
                     Aides pour les thermopompes
 
-                    </a>
+                </a>
 
 
 
@@ -1269,7 +1261,7 @@
 
                     Isolation et étanchéité
 
-                    </a>
+                </a>
 
 
 
@@ -1278,7 +1270,7 @@
 
                     Fenêtres et portes
 
-                    </a>
+                </a>
 
 
 
@@ -1287,7 +1279,7 @@
 
                     Ménages à faible revenu
 
-                    </a>
+                </a>
 
 
 
@@ -1296,7 +1288,7 @@
 
                     Méthodologie
 
-                    </a>
+                </a>
 
 
 
@@ -1305,83 +1297,37 @@
 
                     Sources officielles
 
-                    </a>
+                </a>
 
 
 
-                <a href="{{ url('/contact') }}"
-                    class="mobile-link {{ request()->is('contact') ? 'active' : '' }}">
+                <a href="{{ url('/contact') }}" class="mobile-link {{ request()->is('contact') ? 'active' : '' }}">
 
                     Contact
 
-                    </a>
+                </a>
 
 
 
-                <a href="{{ url('/sources-officielles') }}"
-                    class="nav-cta mobile-cta">
+                <a href="{{ url('/sources-officielles') }}" class="nav-cta mobile-cta">
 
                     Consulter les sources officielles
 
-                    </a>
+                </a>
 
 
-
-                </div>
 
             </div>
 
-        </header>
+        </div>
+
+    </header>
 
 
 
     {{-- AVERTISSEMENT D'INDÉPENDANCE --}}
 
-    <div class="site-container independence-wrap">
 
-        <aside class="independence-notice" aria-label="Avertissement d'indépendance">
-
-            <span class="notice-icon" aria-hidden="true">
-
-                <svg width="18" height="18" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor"                      stroke-width="2"
-                    stroke-linecap="round"                      stroke-linejoin="round">
-
-                    
-                    <path d="M12 9v4" />
-
-                    
-                    <path d="M12 17h.01" />
-
-                    
-                    <path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z" />
-
-                    
-                </svg>
-
-                </span>
-
-
-
-            <div>
-
-                <strong>Un portail d'information indépendant.</strong>
-
-                ÉcoAides Canada n'est ni un site gouvernemental ni un organisme
-
-                chargé de traiter les demandes de subvention. Nous ne garantissons
-
-                aucune aide et ne demandons aucun paiement pour accéder aux
-
-                informations. Vérifiez toujours les conditions auprès des sources
-
-                officielles avant d'entreprendre des travaux.
-
-                </div>
-
-            </aside>
-
-        </div>
 
 
 
@@ -1391,7 +1337,7 @@
 
         @yield('content')
 
-        </main>
+    </main>
 
 
 
@@ -1411,21 +1357,19 @@
 
                     <span class="brand-icon" aria-hidden="true">
 
-                        <svg width="25" height="25" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor"
-                            stroke-width="1.7" stroke-linecap="round"
-                            stroke-linejoin="round">
+                        <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
 
-                            
+
                             <path d="M12 21c-4-2-7-5.5-7-10V5l7-3 7 3v6c0 4.5-3 8-7 10Z" />
 
-                            
+
                             <path d="M8 14c1-4 3-6 8-7-1 4-3 7-8 7Z" />
 
-                            
+
                         </svg>
 
-                        </span>
+                    </span>
 
 
 
@@ -1435,17 +1379,17 @@
 
                             ÉcoAides Canada
 
-                            </span>
+                        </span>
 
                         <span class="brand-subtitle" style="color:rgba(255,255,255,.6)">
 
                             Portail d'information
 
-                            </span>
-
                         </span>
 
-                    </a>
+                    </span>
+
+                </a>
 
 
 
@@ -1457,9 +1401,9 @@
 
                     retrouver les sources officielles.
 
-                    </p>
+                </p>
 
-                </div>
+            </div>
 
 
 
@@ -1483,9 +1427,9 @@
 
                     <a href="{{ url('/faibles-revenus') }}">Ménages à faible revenu</a>
 
-                    </div>
-
                 </div>
+
+            </div>
 
 
 
@@ -1505,9 +1449,9 @@
 
                     <a href="{{ url('/contact') }}">Nous contacter</a>
 
-                    </div>
-
                 </div>
+
+            </div>
 
 
 
@@ -1529,15 +1473,15 @@
 
                         Publicité et affiliation
 
-                        </a>
-
-                    </div>
+                    </a>
 
                 </div>
 
-
-
             </div>
+
+
+
+        </div>
 
 
 
@@ -1551,7 +1495,7 @@
 
                     © {{ date('Y') }} ÉcoAides Canada. Tous droits réservés.
 
-                    </p>
+                </p>
 
 
 
@@ -1563,13 +1507,13 @@
 
                     une décision ou d'engager des dépenses.
 
-                    </p>
-
-                </div>
+                </p>
 
             </div>
 
-        </footer>
+        </div>
+
+    </footer>
 
 
 
@@ -1579,23 +1523,22 @@
 
 
 
-        <svg width="20" height="20" viewBox="0 0 24 24"              fill="none"
-            stroke="currentColor"              stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24"              fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 
-            
+
             <path d="m18 15-6-6-6 6" />
 
-            
+
         </svg>
 
-        </a>
+    </a>
 
 
 
     {{-- JAVASCRIPT DU MENU MOBILE --}}
 
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
