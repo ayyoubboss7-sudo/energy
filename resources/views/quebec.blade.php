@@ -1,802 +1,551 @@
 @extends('layouts.app')
 
-@section('title', 'Aides rénovation énergétique Québec 2026 | ÉcoAides Canada')
-
-@section('meta_description', 'Découvrez les aides à la rénovation énergétique au Québec : Rénoclimat, LogisVert,
-    conditions, montants et programmes fermés.')
+@section('title', 'Aides à la rénovation énergétique au Québec en 2026 | ÉcoAides Canada')
 
 @section('content')
+<style>
+    .qc-page {
+        --qc-forest: #123C32;
+        --qc-green: #287A58;
+        --qc-lime: #D9F27E;
+        --qc-cream: #F7F9F4;
+        --qc-ink: #18251F;
+        --qc-muted: #68756D;
+        color: var(--qc-ink);
+        background: var(--qc-cream);
+        overflow: hidden;
+    }
+    .qc-page * { box-sizing: border-box; }
+    .qc-container { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .qc-eyebrow {
+        display: inline-flex; align-items: center; gap: 9px;
+        color: var(--qc-green); font-size: .78rem; font-weight: 800;
+        letter-spacing: .12em; text-transform: uppercase;
+    }
+    .qc-eyebrow::before { content: ""; width: 25px; height: 2px; background: currentColor; }
+    .qc-btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+        min-height: 48px; padding: 13px 20px; border-radius: 999px;
+        font-weight: 750; font-size: .92rem; text-decoration: none;
+        transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+    }
+    .qc-btn:hover { transform: translateY(-2px); }
+    .qc-btn-primary { background: var(--qc-lime); color: var(--qc-forest); box-shadow: 0 8px 24px #071d1420; }
+    .qc-btn-primary:hover { background: #e5f9a9; }
+    .qc-btn-light { background: #fff; color: var(--qc-forest); }
+    .qc-btn-outline { border: 1px solid #ffffff70; color: #fff; }
+    .qc-hero {
+        position: relative; isolation: isolate; color: #fff;
+        padding: clamp(58px, 8vw, 100px) 0 76px;
+        background: var(--qc-forest);
+    }
+    .qc-hero::before {
+        content: ""; position: absolute; inset: 0; z-index: -2;
+        background:
+          linear-gradient(90deg, rgba(10,39,31,.96) 0%, rgba(10,39,31,.88) 40%, rgba(10,39,31,.24) 100%),
+          url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=85') center 48%/cover;
+    }
+    .qc-hero::after {
+        content: ""; position: absolute; z-index: -1; width: 360px; height: 360px;
+        right: -140px; bottom: -170px; border: 1px solid #d9f27e40; border-radius: 50%;
+        box-shadow: 0 0 0 45px #d9f27e0c, 0 0 0 90px #d9f27e08;
+    }
+    .qc-hero-grid { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(300px, .78fr); gap: 48px; align-items: center; }
+    .qc-hero .qc-eyebrow { color: var(--qc-lime); }
+    .qc-hero h1 { max-width: 720px; margin: 20px 0 20px; font-size: clamp(2.45rem, 5.2vw, 4.7rem); line-height: 1.04; letter-spacing: -.055em; font-weight: 850; }
+    .qc-hero h1 span { color: var(--qc-lime); }
+    .qc-hero-copy { max-width: 620px; color: #e1ebe5; font-size: clamp(1rem, 1.5vw, 1.13rem); line-height: 1.8; }
+    .qc-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .qc-hero-note { display: flex; align-items: center; gap: 10px; margin-top: 25px; color: #d5e3db; font-size: .84rem; }
+    .qc-hero-note span { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #ffffff18; color: var(--qc-lime); }
+    .qc-hero-visual { position: relative; min-height: 390px; }
+    .qc-hero-photo {
+        position: absolute; inset: 0 0 28px 25px; border-radius: 28px; overflow: hidden;
+        border: 1px solid #ffffff38; box-shadow: 0 28px 70px #061c1640;
+    }
+    .qc-hero-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .qc-hero-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg,#09291f75,transparent 50%); }
+    .qc-floating-card {
+        position: absolute; left: 0; bottom: 0; max-width: 255px; padding: 19px 20px;
+        border-radius: 18px; color: var(--qc-ink); background: #fff; box-shadow: 0 18px 45px #061c1633;
+    }
+    .qc-floating-card small { display: block; color: var(--qc-muted); font-weight: 700; margin-bottom: 6px; }
+    .qc-floating-card strong { display: block; font-size: 1.8rem; letter-spacing: -.04em; color: var(--qc-forest); }
+    .qc-floating-card span { font-size: .82rem; color: var(--qc-muted); line-height: 1.5; display: block; margin-top: 4px; }
+    .qc-trust-strip { background: #fff; border-bottom: 1px solid #e4eae3; }
+    .qc-trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 23px 0; }
+    .qc-trust-item { display: flex; align-items: center; gap: 13px; color: var(--qc-muted); font-size: .88rem; line-height: 1.45; }
+    .qc-trust-icon { width: 40px; height: 40px; flex: 0 0 40px; display: grid; place-items: center; border-radius: 13px; background: #eaf3e9; color: var(--qc-green); font-size: 1.15rem; }
+    .qc-section { padding: clamp(58px, 7vw, 90px) 0; }
+    .qc-section-white { background: #fff; }
+    .qc-section-head { display: flex; justify-content: space-between; gap: 28px; align-items: end; margin-bottom: 32px; }
+    .qc-section-head h2 { max-width: 700px; margin: 12px 0 0; color: var(--qc-forest); font-size: clamp(1.9rem, 3.8vw, 3.1rem); line-height: 1.12; letter-spacing: -.045em; }
+    .qc-section-head p { max-width: 440px; color: var(--qc-muted); line-height: 1.75; margin: 0; }
+    .qc-program-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .qc-program-card {
+        position: relative; padding: 26px; background: #fff; border: 1px solid #e3e9e1;
+        border-radius: 22px; box-shadow: 0 10px 30px #123c3208; display: flex; flex-direction: column;
+    }
+    .qc-program-card.featured { background: var(--qc-forest); color: #fff; border-color: var(--qc-forest); }
+    .qc-program-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 23px; }
+    .qc-program-mark { display: grid; place-items: center; width: 47px; height: 47px; border-radius: 15px; background: #eaf3e9; color: var(--qc-green); font-size: 1.3rem; }
+    .featured .qc-program-mark { background: #ffffff18; color: var(--qc-lime); }
+    .qc-status { display: inline-flex; align-items: center; gap: 7px; border-radius: 999px; padding: 7px 10px; font-size: .73rem; font-weight: 800; }
+    .qc-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .qc-status-open { color: #216b46; background: #e2f5e7; }
+    .qc-status-announced { color: #8c5a0b; background: #fff0cb; }
+    .qc-status-closed { color: #8b3a3a; background: #f9e4e4; }
+    .qc-program-card h3 { font-size: 1.35rem; margin: 0 0 10px; color: var(--qc-forest); letter-spacing: -.025em; }
+    .qc-program-card.featured h3 { color: #fff; }
+    .qc-program-card p { color: var(--qc-muted); font-size: .93rem; line-height: 1.7; margin: 0 0 20px; }
+    .qc-program-card.featured p { color: #d8e6de; }
+    .qc-program-amount { padding: 17px 0; margin-top: auto; border-top: 1px solid #e5ebe4; }
+    .featured .qc-program-amount { border-color: #ffffff28; }
+    .qc-program-amount small { display: block; color: var(--qc-muted); font-size: .79rem; margin-bottom: 5px; }
+    .featured .qc-program-amount small { color: #d0dfd6; }
+    .qc-program-amount strong { color: var(--qc-forest); font-size: 1.65rem; letter-spacing: -.04em; }
+    .featured .qc-program-amount strong { color: var(--qc-lime); }
+    .qc-card-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 5px; color: var(--qc-green); font-weight: 800; text-decoration: none; font-size: .88rem; }
+    .featured .qc-card-link { color: var(--qc-lime); }
+    .qc-alert { display: flex; gap: 13px; align-items: flex-start; margin-top: 23px; padding: 18px 20px; border: 1px solid #f0dba7; border-radius: 16px; background: #fff8e8; color: #6f4b12; line-height: 1.65; font-size: .9rem; }
+    .qc-alert strong { display: block; margin-bottom: 2px; }
+    .qc-split { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(32px, 6vw, 72px); align-items: center; }
+    .qc-photo-stack { position: relative; min-height: 460px; }
+    .qc-photo-main { position: absolute; inset: 0 50px 45px 0; border-radius: 25px; overflow: hidden; }
+    .qc-photo-main img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .qc-photo-small { position: absolute; width: 48%; height: 190px; right: 0; bottom: 0; border: 7px solid var(--qc-cream); border-radius: 22px; overflow: hidden; }
+    .qc-photo-small img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .qc-photo-tag { position: absolute; left: 18px; top: 18px; border-radius: 999px; background: #fff; color: var(--qc-forest); padding: 10px 14px; font-weight: 800; font-size: .78rem; box-shadow: 0 8px 20px #0002; }
+    .qc-copy h2 { margin: 13px 0 18px; font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1.12; letter-spacing: -.045em; color: var(--qc-forest); }
+    .qc-copy > p { color: var(--qc-muted); line-height: 1.8; margin: 0 0 22px; }
+    .qc-check-list { display: grid; gap: 15px; padding: 0; margin: 22px 0 28px; list-style: none; }
+    .qc-check-list li { display: flex; gap: 12px; align-items: flex-start; line-height: 1.6; }
+    .qc-check { display: grid; place-items: center; width: 24px; height: 24px; flex: 0 0 24px; margin-top: 1px; border-radius: 50%; background: #e1f0df; color: var(--qc-green); font-size: .8rem; font-weight: 900; }
+    .qc-table-wrap { overflow-x: auto; border: 1px solid #e1e8e0; border-radius: 18px; background: #fff; }
+    .qc-table { width: 100%; border-collapse: collapse; min-width: 650px; }
+    .qc-table th, .qc-table td { padding: 17px 20px; text-align: left; border-bottom: 1px solid #e8ede7; }
+    .qc-table th { background: #edf4eb; color: var(--qc-forest); font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; }
+    .qc-table td { color: #526157; font-size: .92rem; }
+    .qc-table td strong { color: var(--qc-forest); }
+    .qc-table tr:last-child td { border-bottom: 0; }
+    .qc-table-note { margin: 13px 0 0; font-size: .82rem; color: var(--qc-muted); line-height: 1.65; }
+    .qc-photo-banner { position: relative; color: #fff; border-radius: 28px; overflow: hidden; padding: clamp(32px, 5vw, 58px); background: var(--qc-forest); }
+    .qc-photo-banner::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg,#102f27f2,#102f27bd 60%,#102f2740), url('https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=1600&q=85') center/cover; z-index: 0; }
+    .qc-photo-banner > * { position: relative; z-index: 1; }
+    .qc-photo-banner h2 { max-width: 660px; font-size: clamp(1.9rem, 4vw, 3.1rem); line-height: 1.1; letter-spacing: -.04em; margin: 12px 0 15px; }
+    .qc-photo-banner p { max-width: 650px; color: #dce8e1; line-height: 1.75; }
+    .qc-steps { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; counter-reset: qc-step; }
+    .qc-step { padding: 24px; border-radius: 20px; border: 1px solid #e3e9e1; background: #fff; counter-increment: qc-step; }
+    .qc-step-number { width: 43px; height: 43px; display: grid; place-items: center; border-radius: 14px; background: var(--qc-forest); color: var(--qc-lime); font-weight: 900; margin-bottom: 18px; }
+    .qc-step h3 { color: var(--qc-forest); font-size: 1.08rem; margin: 0 0 8px; }
+    .qc-step p { color: var(--qc-muted); line-height: 1.7; font-size: .9rem; margin: 0; }
+    .qc-closed-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 15px; }
+    .qc-closed-card { padding: 20px; border: 1px solid #eadede; border-radius: 17px; background: #fff; }
+    .qc-closed-card h3 { color: #603939; font-size: 1rem; margin: 0 0 9px; }
+    .qc-closed-card p { color: var(--qc-muted); font-size: .88rem; line-height: 1.65; margin: 0 0 13px; }
+    .qc-faq { display: grid; gap: 12px; }
+    .qc-faq details { border: 1px solid #e2e9e1; border-radius: 16px; background: #fff; padding: 18px 20px; }
+    .qc-faq summary { cursor: pointer; font-weight: 800; color: var(--qc-forest); list-style: none; display: flex; justify-content: space-between; gap: 18px; }
+    .qc-faq summary::-webkit-details-marker { display: none; }
+    .qc-faq summary::after { content: "+"; color: var(--qc-green); font-size: 1.25rem; line-height: 1; }
+    .qc-faq details[open] summary::after { content: "−"; }
+    .qc-faq details p { color: var(--qc-muted); line-height: 1.75; margin: 14px 0 0; }
+    .qc-sources { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .qc-source-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 13px; border-radius: 999px; background: #eaf2e8; color: var(--qc-forest); font-size: .82rem; font-weight: 800; text-decoration: none; }
+    .qc-source-link:hover { background: #dcebd9; }
+    .qc-last-update { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 15px; padding: 17px 0; color: var(--qc-muted); font-size: .82rem; border-top: 1px solid #e1e8e0; }
+    .qc-bottom-cta { background: var(--qc-lime); padding: 38px 0; }
+    .qc-bottom-cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 25px; }
+    .qc-bottom-cta h2 { color: var(--qc-forest); font-size: clamp(1.5rem, 3vw, 2.15rem); line-height: 1.2; letter-spacing: -.04em; margin: 0 0 8px; }
+    .qc-bottom-cta p { margin: 0; color: #365343; line-height: 1.65; }
+    .qc-bottom-cta .qc-btn { background: var(--qc-forest); color: #fff; flex-shrink: 0; }
+    .qc-page a:focus-visible, .qc-page summary:focus-visible { outline: 3px solid #87a942; outline-offset: 3px; }
+    @media (max-width: 900px) {
+        .qc-hero-grid, .qc-split { grid-template-columns: 1fr; }
+        .qc-hero-visual { min-height: 360px; max-width: 560px; width: 100%; }
+        .qc-program-grid { grid-template-columns: 1fr 1fr; }
+        .qc-section-head { align-items: flex-start; flex-direction: column; }
+        .qc-trust-grid { grid-template-columns: 1fr; gap: 13px; }
+    }
+    @media (max-width: 620px) {
+        .qc-container { width: min(100% - 28px, 1180px); }
+        .qc-hero { padding-top: 48px; }
+        .qc-hero-grid { gap: 35px; }
+        .qc-hero-visual { min-height: 300px; }
+        .qc-hero-photo { left: 14px; }
+        .qc-floating-card { max-width: 225px; padding: 15px; }
+        .qc-program-grid, .qc-steps, .qc-closed-grid { grid-template-columns: 1fr; }
+        .qc-program-card { padding: 22px; }
+        .qc-photo-stack { min-height: 350px; }
+        .qc-photo-main { right: 28px; bottom: 35px; }
+        .qc-photo-small { height: 135px; width: 48%; border-width: 5px; }
+        .qc-bottom-cta-inner { align-items: flex-start; flex-direction: column; }
+        .qc-bottom-cta .qc-btn { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .qc-page *, .qc-page *::before, .qc-page *::after { transition: none !important; scroll-behavior: auto !important; }
+    }
+</style>
 
+<main class="qc-page">
     {{-- HERO --}}
-    <section class="relative overflow-hidden bg-forest text-white">
-        <div class="absolute inset-0 opacity-10">
-            <div class="absolute -right-20 -top-20 h-80 w-80 rounded-full border-[40px] border-white"></div>
-            <div class="absolute -bottom-24 -left-20 h-72 w-72 rounded-full border-[30px] border-white"></div>
-        </div>
-
-        <div class="relative mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
-            <nav class="mb-8 text-sm text-white/70" aria-label="Fil d'Ariane">
-                <a href="{{ route('home') }}" class="transition hover:text-lime">
-                    Accueil
-                </a>
-                <span class="mx-2">/</span>
-                <span class="text-white">Québec</span>
-            </nav>
-
-            <div class="max-w-4xl">
-                <span
-                    class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium">
-                    <span class="h-2 w-2 rounded-full bg-lime"></span>
-                    Guide des aides au Québec
-                </span>
-
-                <h1 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-                    Aides à la rénovation énergétique au Québec :
-                    <span class="text-lime">ce qui est ouvert en 2026</span>
-                </h1>
-
-                <p class="mt-6 max-w-3xl text-lg leading-8 text-white/80">
-                    Découvrez les programmes disponibles pour améliorer l'efficacité
-                    énergétique de votre logement, leurs conditions et les aides
-                    annoncées ou fermées.
-                </p>
-
-                <div class="mt-8 flex flex-wrap gap-3 text-sm text-white/80">
-                    <span class="rounded-full bg-white/10 px-4 py-2">
-                        Mise à jour : 29 octobre 2026
-                    </span>
-                    <span class="rounded-full bg-white/10 px-4 py-2">
-                        Québec, Canada
-                    </span>
-                </div>
-
-                <div class="mt-10 flex flex-wrap gap-4">
-                    <a href="#renoclimat"
-                        class="inline-flex items-center justify-center rounded-xl bg-lime px-6 py-3 font-semibold text-forest transition hover:opacity-90">
-                        Découvrir Rénoclimat
-                        <span class="ml-2" aria-hidden="true">→</span>
-                    </a>
-
-                    <a href="#logisvert"
-                        class="inline-flex items-center justify-center rounded-xl border border-white/30 px-6 py-3 font-semibold text-white transition hover:bg-white/10">
-                        Voir LogisVert
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    {{-- DISCLAIMER --}}
-    <section class="bg-cream px-6 py-6">
-        <div class="mx-auto flex max-w-7xl items-start gap-4 rounded-2xl border border-amber-200 bg-white p-5 shadow-sm">
-            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-xl">
-                ℹ️
-            </div>
-
+    <section class="qc-hero">
+        <div class="qc-container qc-hero-grid">
             <div>
-                <h2 class="font-bold text-forest">
-                    Information indépendante
-                </h2>
-
-                <p class="mt-2 text-sm leading-7 text-muted">
-                    Ce portail est un site d'information indépendant.
-                    Il n'est ni un site du gouvernement du Québec ni mandaté par celui-ci.
-                    Il ne dépose aucune demande à votre place et ne garantit aucune aide.
-                    Vérifiez toujours les conditions auprès de l'organisme officiel
-                    avant d'entreprendre vos travaux.
+                <span class="qc-eyebrow">Québec · Aides à la rénovation</span>
+                <h1>Rénover mieux.<br><span>Économiser durablement.</span></h1>
+                <p class="qc-hero-copy">
+                    Découvrez les programmes d’aide à la rénovation énergétique au Québec :
+                    montants, travaux admissibles, conditions et statut de chaque programme,
+                    avec des liens vers les sources officielles.
                 </p>
+                <div class="qc-hero-actions">
+                    <a class="qc-btn qc-btn-primary" href="#programmes">Explorer les aides <span aria-hidden="true">↗</span></a>
+                    <a class="qc-btn qc-btn-outline" href="#sources">Voir les sources officielles</a>
+                </div>
+                <div class="qc-hero-note">
+                    <span aria-hidden="true">✓</span>
+                    Informations éditoriales vérifiées le 29 octobre 2026 — vérifiez les conditions avant les travaux.
+                </div>
+            </div>
+            <div class="qc-hero-visual" aria-label="Maison rénovée et écoénergétique">
+                <div class="qc-hero-photo">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85"
+                         alt="Maison contemporaine entourée de verdure" fetchpriority="high">
+                </div>
+                <div class="qc-floating-card">
+                    <small>Exemple de montant maximal</small>
+                    <strong>7 000 $</strong>
+                    <span>Pour l’isolation des murs extérieurs d’une maison avec Rénoclimat, sous conditions.</span>
+                </div>
             </div>
         </div>
     </section>
 
-
-    {{-- INTRODUCTION --}}
-    <section class="bg-cream px-6 py-14">
-        <div class="mx-auto max-w-7xl">
-            <div class="max-w-3xl">
-                <span class="text-sm font-bold uppercase tracking-widest text-forest">
-                    Comprendre les programmes
-                </span>
-
-                <h2 class="mt-3 text-3xl font-bold text-forest sm:text-4xl">
-                    Quelles aides consulter au Québec ?
-                </h2>
-
-                <p class="mt-5 leading-8 text-muted">
-                    Plusieurs programmes peuvent contribuer à réduire le coût
-                    de certains travaux de rénovation énergétique. Rénoclimat
-                    concerne notamment l'isolation et le remplacement de fenêtres,
-                    tandis que LogisVert d'Hydro-Québec propose des aides pour
-                    certaines thermopompes et d'autres mesures admissibles.
-                </p>
-
-                <p class="mt-4 leading-8 text-muted">
-                    Une aide annoncée n'est pas nécessairement disponible :
-                    vérifiez son statut et les conditions en vigueur avant de
-                    prendre une décision.
-                </p>
-            </div>
-
-            <div class="mt-10 grid gap-5 md:grid-cols-3">
-                <article class="rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 text-2xl">
-                        🏠
-                    </div>
-
-                    <h3 class="mt-5 text-xl font-bold text-forest">
-                        Rénoclimat
-                    </h3>
-
-                    <p class="mt-3 leading-7 text-muted">
-                        Pour certains travaux d'isolation, le remplacement
-                        de fenêtres et d'autres mesures admissibles.
-                    </p>
-
-                    <span class="mt-5 inline-flex rounded-full bg-green-100 px-3 py-1 text-sm font-semibold text-green-800">
-                        Ouvert selon le dossier
-                    </span>
-
-                    <a href="#renoclimat" class="mt-5 inline-flex font-semibold text-forest hover:underline">
-                        Consulter les détails →
-                    </a>
-                </article>
-
-                <article class="rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-lime/30 text-2xl">
-                        ♻️
-                    </div>
-
-                    <h3 class="mt-5 text-xl font-bold text-forest">
-                        LogisVert
-                    </h3>
-
-                    <p class="mt-3 leading-7 text-muted">
-                        Un programme résidentiel d'Hydro-Québec qui soutient
-                        certaines installations efficaces.
-                    </p>
-
-                    <span class="mt-5 inline-flex rounded-full bg-green-100 px-3 py-1 text-sm font-semibold text-green-800">
-                        Ouvert selon le dossier
-                    </span>
-
-                    <a href="#logisvert" class="mt-5 inline-flex font-semibold text-forest hover:underline">
-                        Consulter les détails →
-                    </a>
-                </article>
-
-                <article class="rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-2xl">
-                        🇨🇦
-                    </div>
-
-                    <h3 class="mt-5 text-xl font-bold text-forest">
-                        Remise nationale
-                    </h3>
-
-                    <p class="mt-3 leading-7 text-muted">
-                        Une aide fédérale annoncée pour les thermopompes,
-                        dont l'ouverture doit être confirmée.
-                    </p>
-
-                    <span class="mt-5 inline-flex rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-amber-800">
-                        Annoncée, pas ouverte
-                    </span>
-
-                    <a href="#remise-nationale" class="mt-5 inline-flex font-semibold text-forest hover:underline">
-                        Consulter les détails →
-                    </a>
-                </article>
-            </div>
+    {{-- DISCLAIMER / TRUST --}}
+    <section class="qc-trust-strip" aria-label="À savoir">
+        <div class="qc-container qc-trust-grid">
+            <div class="qc-trust-item"><span class="qc-trust-icon" aria-hidden="true">✓</span><span><strong>Statuts distingués</strong><br>Ouvert, annoncé ou fermé selon les informations officielles.</span></div>
+            <div class="qc-trust-item"><span class="qc-trust-icon" aria-hidden="true">↗</span><span><strong>Sources officielles</strong><br>Liens directs vers Québec.ca, Hydro‑Québec et Canada.ca.</span></div>
+            <div class="qc-trust-item"><span class="qc-trust-icon" aria-hidden="true">i</span><span><strong>Portail indépendant</strong><br>ÉcoAides Canada n’est pas un site gouvernemental et ne garantit aucune aide.</span></div>
         </div>
     </section>
 
+    {{-- PROGRAMMES --}}
+    <section class="qc-section" id="programmes">
+        <div class="qc-container">
+            <div class="qc-section-head">
+                <div>
+                    <span class="qc-eyebrow">Les programmes</span>
+                    <h2>Quelles aides regarder en premier ?</h2>
+                </div>
+                <p>Le bon programme dépend du type de travaux, de votre habitation et des critères d’admissibilité. Les montants affichés sont des maximums, pas une garantie de paiement.</p>
+            </div>
+
+            <div class="qc-program-grid">
+                <article class="qc-program-card featured">
+                    <div class="qc-program-top">
+                        <span class="qc-program-mark" aria-hidden="true">⌂</span>
+                        <span class="qc-status qc-status-open">Ouvert*</span>
+                    </div>
+                    <h3>Rénoclimat</h3>
+                    <p>Isolation, remplacement de fenêtres et certaines mesures d’adaptation aux inondations. Les modalités ont changé le 1er octobre 2026.</p>
+                    <div class="qc-program-amount">
+                        <small>Exemples de montants maximaux</small>
+                        <strong>Jusqu’à 7 000 $</strong>
+                    </div>
+                    <a class="qc-card-link" href="#renoclimat">Voir les travaux et conditions <span aria-hidden="true">→</span></a>
+                </article>
+
+                <article class="qc-program-card">
+                    <div class="qc-program-top">
+                        <span class="qc-program-mark" aria-hidden="true">♨</span>
+                        <span class="qc-status qc-status-open">En vigueur</span>
+                    </div>
+                    <h3>LogisVert</h3>
+                    <p>Programme d’Hydro‑Québec pour différentes mesures d’efficacité énergétique, dont certaines thermopompes et mesures d’isolation.</p>
+                    <div class="qc-program-amount">
+                        <small>Thermopompes admissibles</small>
+                        <strong>Selon le modèle</strong>
+                    </div>
+                    <a class="qc-card-link" href="#logisvert">Voir les montants <span aria-hidden="true">→</span></a>
+                </article>
+
+                <article class="qc-program-card">
+                    <div class="qc-program-top">
+                        <span class="qc-program-mark" aria-hidden="true">＋</span>
+                        <span class="qc-status qc-status-announced">Annoncé</span>
+                    </div>
+                    <h3>Remise nationale pour thermopompes</h3>
+                    <p>Un programme fédéral annoncé en octobre 2026. À la date de vérification indiquée, les demandes ne sont pas ouvertes.</p>
+                    <div class="qc-program-amount">
+                        <small>Montants annoncés</small>
+                        <strong>Jusqu’à 10 000 $</strong>
+                    </div>
+                    <a class="qc-card-link" href="#federal">Comprendre le statut <span aria-hidden="true">→</span></a>
+                </article>
+            </div>
+
+            <div class="qc-alert" role="note">
+                <span aria-hidden="true">⚠</span>
+                <div><strong>Important : un montant maximal n’est pas une promesse de subvention.</strong>
+                    Vérifiez l’admissibilité de votre habitation, des travaux et des équipements auprès de l’organisme responsable avant de signer un contrat.
+                </div>
+            </div>
+            <p class="qc-table-note">* Rénoclimat : les nouvelles modalités sont en vigueur, mais le portail sécurisé de dépôt des demandes est indiqué comme étant en développement par Québec.ca. Consultez la page officielle pour les démarches en cours.</p>
+        </div>
+    </section>
 
     {{-- RENOC LIMAT --}}
-    <section id="renoclimat" class="scroll-mt-20 bg-white px-6 py-20">
-        <div class="mx-auto max-w-7xl">
-            <div class="grid items-start gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-                <div>
-                    <span class="text-sm font-bold uppercase tracking-widest text-forest">
-                        Programme provincial
-                    </span>
-
-                    <h2 class="mt-3 text-3xl font-bold text-forest sm:text-4xl">
-                        1. Rénoclimat : pour isoler et rénover
-                    </h2>
-
-                    <span
-                        class="mt-5 inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-800">
-                        <span class="h-2 w-2 rounded-full bg-green-600"></span>
-                        Statut indiqué : ouvert
-                    </span>
-
-                    <p class="mt-6 leading-8 text-muted">
-                        Rénoclimat est un programme du gouvernement du Québec
-                        visant à améliorer la performance énergétique des habitations.
-                        Selon le document de référence, de nouvelles règles sont
-                        entrées en vigueur le 1er octobre 2026.
-                    </p>
-
-                    <div class="mt-6 rounded-2xl bg-cream p-5">
-                        <h3 class="font-bold text-forest">
-                            Évaluation énergétique
-                        </h3>
-
-                        <p class="mt-2 leading-7 text-muted">
-                            L'évaluation avant travaux n'est plus obligatoire
-                            selon le document de référence, mais elle reste recommandée.
-                            Une aide pouvant atteindre 500 $ y est indiquée.
-                        </p>
-                    </div>
-
-                    <a href="{{ route('programmes') }}"
-                        class="mt-7 inline-flex items-center rounded-xl bg-forest px-5 py-3 font-semibold text-white transition hover:opacity-90">
-                        Voir les programmes
-                        <span class="ml-2" aria-hidden="true">→</span>
-                    </a>
+    <section class="qc-section qc-section-white" id="renoclimat">
+        <div class="qc-container qc-split">
+            <div class="qc-photo-stack">
+                <div class="qc-photo-main">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1100&q=85"
+                         alt="Intérieur lumineux d’une maison rénovée" loading="lazy">
                 </div>
-
-                <div class="overflow-hidden rounded-2xl border border-black/5 shadow-sm">
-                    <div class="bg-forest px-6 py-5 text-white">
-                        <h3 class="text-xl font-bold">
-                            Montants indiqués dans le dossier
-                        </h3>
-                        <p class="mt-2 text-sm text-white/70">
-                            Montants maximaux selon le type de bâtiment.
-                        </p>
-                    </div>
-
-                    <div class="overflow-x-auto">
-                        <table class="w-full min-w-[600px] text-left text-sm">
-                            <thead class="bg-cream text-forest">
-                                <tr>
-                                    <th class="px-5 py-4 font-bold">Mesure</th>
-                                    <th class="px-5 py-4 font-bold">Maison</th>
-                                    <th class="px-5 py-4 font-bold">Duplex / triplex / IRLM</th>
-                                </tr>
-                            </thead>
-
-                            <tbody class="divide-y divide-gray-100">
-                                <tr>
-                                    <td class="px-5 py-4">Isolation du toit</td>
-                                    <td class="px-5 py-4 font-semibold text-forest">Jusqu'à 2 000 $</td>
-                                    <td class="px-5 py-4 font-semibold text-forest">Jusqu'à 5 000 $</td>
-                                </tr>
-
-                                <tr>
-                                    <td class="px-5 py-4">Isolation des murs extérieurs</td>
-                                    <td class="px-5 py-4 font-semibold text-forest">Jusqu'à 7 000 $</td>
-                                    <td class="px-5 py-4 font-semibold text-forest">Jusqu'à 11 000 $</td>
-                                </tr>
-
-                                <tr>
-                                    <td class="px-5 py-4">Isolation des fondations</td>
-                                    <td class="px-5 py-4 font-semibold text-forest">Jusqu'à 2 500 $</td>
-                                    <td class="px-5 py-4 font-semibold text-forest">Jusqu'à 3 500 $</td>
-                                </tr>
-
-                                <tr>
-                                    <td class="px-5 py-4">Remplacement de fenêtres</td>
-                                    <td class="px-5 py-4 font-semibold text-forest">Jusqu'à 4 500 $</td>
-                                    <td class="px-5 py-4 font-semibold text-forest">Jusqu'à 6 000 $</td>
-                                </tr>
-
-                                <tr>
-                                    <td class="px-5 py-4">Source de secours</td>
-                                    <td class="px-5 py-4 font-semibold text-forest">Jusqu'à 1 000 $</td>
-                                    <td class="px-5 py-4">—</td>
-                                </tr>
-
-                                <tr>
-                                    <td class="px-5 py-4">Batterie fixe</td>
-                                    <td class="px-5 py-4 font-semibold text-forest">Jusqu'à 4 000 $</td>
-                                    <td class="px-5 py-4">—</td>
-                                </tr>
-
-                                <tr>
-                                    <td class="px-5 py-4">Évaluation énergétique</td>
-                                    <td class="px-5 py-4 font-semibold text-forest">Jusqu'à 500 $</td>
-                                    <td class="px-5 py-4 font-semibold text-forest">Jusqu'à 500 $</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <p class="border-t border-gray-100 px-6 py-4 text-xs leading-6 text-muted">
-                        Source mentionnée dans le dossier : Québec.ca,
-                        page « Nouveautés Rénoclimat », mise à jour le 2 octobre 2026.
-                        Les montants et conditions doivent être revérifiés avant publication.
-                    </p>
+                <div class="qc-photo-small">
+                    <img src="https://images.unsplash.com/photo-1635424710928-4b1a7f4a7f0a?auto=format&fit=crop&w=700&q=80"
+                         alt="Détail de rénovation résidentielle" loading="lazy">
                 </div>
+                <span class="qc-photo-tag">Rénoclimat · Québec.ca</span>
             </div>
-
-            <div class="mt-12 grid gap-6 md:grid-cols-2">
-                <div class="rounded-2xl border border-black/5 bg-cream p-6">
-                    <h3 class="text-lg font-bold text-forest">
-                        Adaptation aux inondations
-                    </h3>
-
-                    <p class="mt-2 leading-7 text-muted">
-                        Le dossier indique également des aides pour certaines mesures
-                        de protection contre les inondations.
-                    </p>
-
-                    <ul class="mt-5 space-y-3 text-sm leading-6 text-muted">
-                        <li class="flex gap-3">
-                            <span class="font-bold text-forest">•</span>
-                            Pompe submersible avec batterie : jusqu'à 1 000 $
-                        </li>
-                        <li class="flex gap-3">
-                            <span class="font-bold text-forest">•</span>
-                            Clapet anti-retour : jusqu'à 700 $
-                        </li>
-                        <li class="flex gap-3">
-                            <span class="font-bold text-forest">•</span>
-                            Barrière anti-inondation : jusqu'à 800 $
-                        </li>
-                        <li class="flex gap-3">
-                            <span class="font-bold text-forest">•</span>
-                            Diagnostic de résilience climatique : jusqu'à 1 000 $
-                        </li>
-                        <li class="flex gap-3">
-                            <span class="font-bold text-forest">•</span>
-                            Mesures de protection des fondations et d'adaptation :
-                            jusqu'à 35 000 $, selon les conditions indiquées dans le dossier
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="rounded-2xl border border-amber-200 bg-amber-50 p-6">
-                    <h3 class="text-lg font-bold text-forest">
-                        Conditions importantes
-                    </h3>
-
-                    <ul class="mt-5 space-y-3 text-sm leading-7 text-muted">
-                        <li>
-                            <span class="font-bold text-forest">•</span>
-                            Les travaux doivent être réalisés par un entrepreneur
-                            licencié par la RBQ, selon les exigences applicables.
-                        </li>
-                        <li>
-                            <span class="font-bold text-forest">•</span>
-                            Le dossier indique que les travaux concernés doivent
-                            avoir été effectués après le 1er octobre 2026.
-                        </li>
-                        <li>
-                            <span class="font-bold text-forest">•</span>
-                            Les thermopompes, climatiseurs et systèmes géothermiques
-                            ne sont pas admissibles à Rénoclimat selon le dossier.
-                        </li>
-                    </ul>
-
-                    <div class="mt-5 border-t border-amber-200 pt-4">
-                        <p class="text-sm leading-7 text-muted">
-                            <strong class="text-forest">Anciens dossiers :</strong>
-                            si une évaluation avant travaux a déjà été réalisée,
-                            le document indique une date limite au 31 mars 2027
-                            pour l'évaluation après travaux dans le cadre des anciennes modalités.
-                            Vérifiez votre situation auprès du programme.
-                        </p>
-                    </div>
-                </div>
+            <div class="qc-copy">
+                <span class="qc-eyebrow">01 · Rénoclimat</span>
+                <h2>Améliorez l’enveloppe de votre maison.</h2>
+                <p>Depuis le 1er octobre 2026, Rénoclimat propose un parcours simplifié pour certains travaux d’efficacité énergétique et de nouvelles mesures pour l’adaptation aux inondations.</p>
+                <ul class="qc-check-list">
+                    <li><span class="qc-check">✓</span><span><strong>Isolation :</strong> toit, murs extérieurs et fondations selon les critères du programme.</span></li>
+                    <li><span class="qc-check">✓</span><span><strong>Fenêtres :</strong> remplacement admissible, sous réserve des critères du Guide du participant.</span></li>
+                    <li><span class="qc-check">✓</span><span><strong>Entrepreneur :</strong> les travaux doivent être réalisés par un entrepreneur détenant les licences appropriées.</span></li>
+                    <li><span class="qc-check">✓</span><span><strong>Thermopompes :</strong> elles ne sont pas admissibles à Rénoclimat selon le cahier des charges; consultez plutôt LogisVert.</span></li>
+                </ul>
+                <a class="qc-btn qc-btn-primary" href="https://www.quebec.ca/habitation-territoire/chauffage-consommation-energie/aide-financiere-renovation-ecoenergetique/renoclimat/nouveautes-adaptation-inondations" target="_blank" rel="noopener noreferrer">Consulter Québec.ca ↗</a>
             </div>
         </div>
     </section>
 
+    <section class="qc-section" aria-labelledby="renoclimat-table-title">
+        <div class="qc-container">
+            <div class="qc-section-head">
+                <div>
+                    <span class="qc-eyebrow">Montants indicatifs</span>
+                    <h2 id="renoclimat-table-title">Rénoclimat : exemples d’aide maximale</h2>
+                </div>
+                <p>Les montants varient selon le type d’habitation, la mesure et les critères applicables. Le Guide du participant fait foi.</p>
+            </div>
+            <div class="qc-table-wrap">
+                <table class="qc-table">
+                    <thead><tr><th>Travaux</th><th>Maison</th><th>Duplex / triplex / IRLM</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Isolation du toit</strong></td><td>Jusqu’à 2 000 $</td><td>Jusqu’à 5 000 $</td></tr>
+                        <tr><td><strong>Isolation des murs extérieurs</strong></td><td>Jusqu’à 7 000 $</td><td>Jusqu’à 11 000 $</td></tr>
+                        <tr><td><strong>Isolation des fondations</strong></td><td>Jusqu’à 2 500 $</td><td>Jusqu’à 3 500 $</td></tr>
+                        <tr><td><strong>Remplacement de fenêtres</strong></td><td>Jusqu’à 4 500 $ (300 $/fenêtre)</td><td>Jusqu’à 6 000 $</td></tr>
+                        <tr><td><strong>Raccordement à une source de secours</strong></td><td>Jusqu’à 1 000 $</td><td>Selon les critères officiels</td></tr>
+                        <tr><td><strong>Ajout d’une batterie fixe</strong></td><td>Jusqu’à 4 000 $</td><td>Selon les critères officiels</td></tr>
+                        <tr><td><strong>Évaluation énergétique</strong></td><td>Jusqu’à 500 $</td><td>Selon les critères officiels</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="qc-table-note">IRLM : immeuble résidentiel à logements multiples. Les nouvelles mesures liées à l’alimentation de secours et à la batterie s’appliquent selon les conditions officielles, notamment à certaines résidences principales et IRLM. Les travaux et montants admissibles doivent être confirmés sur Québec.ca.</p>
+        </div>
+    </section>
 
     {{-- LOGISVERT --}}
-    <section id="logisvert" class="scroll-mt-20 bg-cream px-6 py-20">
-        <div class="mx-auto max-w-7xl">
-            <div class="max-w-3xl">
-                <span class="text-sm font-bold uppercase tracking-widest text-forest">
-                    Programme Hydro-Québec
-                </span>
-
-                <h2 class="mt-3 text-3xl font-bold text-forest sm:text-4xl">
-                    2. LogisVert : une aide pour les thermopompes
-                </h2>
-
-                <p class="mt-5 leading-8 text-muted">
-                    LogisVert est un programme résidentiel d'Hydro-Québec.
-                    Le dossier de référence le présente comme une aide active
-                    au Québec pour certaines thermopompes et d'autres mesures
-                    admissibles.
-                </p>
-
-                <span
-                    class="mt-5 inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-800">
-                    <span class="h-2 w-2 rounded-full bg-green-600"></span>
-                    Statut indiqué : ouvert
-                </span>
+    <section class="qc-section qc-section-white" id="logisvert">
+        <div class="qc-container qc-split">
+            <div class="qc-copy">
+                <span class="qc-eyebrow">02 · Hydro‑Québec</span>
+                <h2>LogisVert : des mesures pour réduire la consommation d’énergie.</h2>
+                <p>LogisVert est en vigueur. Le montant dépend de la mesure installée, de l’équipement et des exigences applicables au moment des travaux.</p>
+                <ul class="qc-check-list">
+                    <li><span class="qc-check">✓</span><span>Vérifiez que le modèle de thermopompe figure sur la liste des produits admissibles.</span></li>
+                    <li><span class="qc-check">✓</span><span>Conservez les factures détaillées et les documents d’installation.</span></li>
+                    <li><span class="qc-check">✓</span><span>Pour les mesures concernées, transmettez la demande au plus tard neuf mois après l’installation.</span></li>
+                    <li><span class="qc-check">✓</span><span>Les conditions peuvent varier selon la catégorie d’appareil et le type d’habitation.</span></li>
+                </ul>
+                <a class="qc-btn qc-btn-primary" href="https://www.hydroquebec.com/residentiel/mieux-consommer/aides-financieres/logisvert/" target="_blank" rel="noopener noreferrer">Consulter LogisVert ↗</a>
             </div>
-
-            <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                <article class="rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
-                    <p class="text-sm text-muted">Thermopompe ENERGY STAR</p>
-                    <p class="mt-3 text-3xl font-bold text-forest">50 $</p>
-                    <p class="mt-2 text-sm leading-6 text-muted">
-                        Par 1 000 BTU/h à -8 °C, selon les exigences applicables.
-                    </p>
-                </article>
-
-                <article class="rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
-                    <p class="text-sm text-muted">Thermopompe climat froid</p>
-                    <p class="mt-3 text-3xl font-bold text-forest">120 $</p>
-                    <p class="mt-2 text-sm leading-6 text-muted">
-                        Par 1 000 BTU/h à -8 °C, selon le dossier.
-                    </p>
-                </article>
-
-                <article class="rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
-                    <p class="text-sm text-muted">Très haute efficacité</p>
-                    <p class="mt-3 text-3xl font-bold text-forest">140 $</p>
-                    <p class="mt-2 text-sm leading-6 text-muted">
-                        Par 1 000 BTU/h pour un chauffage principal électrique,
-                        selon les conditions du programme.
-                    </p>
-                </article>
-
-                <article class="rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
-                    <p class="text-sm text-muted">Géothermie neuve</p>
-                    <p class="mt-3 text-3xl font-bold text-forest">750 $</p>
-                    <p class="mt-2 text-sm leading-6 text-muted">
-                        Par 1 000 BTU/h, selon le dossier de référence.
-                    </p>
-                </article>
-            </div>
-
-            <div class="mt-8 grid gap-6 lg:grid-cols-2">
-                <div class="rounded-2xl bg-white p-7 shadow-sm">
-                    <h3 class="text-xl font-bold text-forest">
-                        Autres mesures mentionnées
-                    </h3>
-
-                    <ul class="mt-5 space-y-4 text-sm leading-7 text-muted">
-                        <li class="flex items-start justify-between gap-4 border-b border-gray-100 pb-3">
-                            <span>Multilogements en zone de défavorisation</span>
-                            <strong class="shrink-0 text-forest">220 $ / 1 000 BTU/h</strong>
-                        </li>
-
-                        <li class="flex items-start justify-between gap-4 border-b border-gray-100 pb-3">
-                            <span>Remplacement d'un système géothermique</span>
-                            <strong class="shrink-0 text-forest">250 $ / 1 000 BTU/h</strong>
-                        </li>
-
-                        <li class="flex items-start justify-between gap-4 border-b border-gray-100 pb-3">
-                            <span>Isolation du toit avec calfeutrage</span>
-                            <strong class="shrink-0 text-forest">1 500 $</strong>
-                        </li>
-
-                        <li class="flex items-start justify-between gap-4">
-                            <span>Cuisinière à induction</span>
-                            <strong class="shrink-0 text-forest">250 $</strong>
-                        </li>
-                    </ul>
-
-                    <p class="mt-5 text-xs leading-6 text-muted">
-                        Pour le remplacement géothermique, le dossier mentionne
-                        un plafond de 18 000 $. Les montants dépendent des règles
-                        applicables au moment de l'installation.
-                    </p>
+            <div class="qc-photo-stack">
+                <div class="qc-photo-main">
+                    <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1100&q=85"
+                         alt="Technicien travaillant sur un équipement électrique" loading="lazy">
                 </div>
-
-                <div class="rounded-2xl bg-forest p-7 text-white">
-                    <h3 class="text-xl font-bold">
-                        Comment préparer votre demande ?
-                    </h3>
-
-                    <ol class="mt-6 space-y-5">
-                        <li class="flex gap-4">
-                            <span
-                                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-lime font-bold text-forest">1</span>
-                            <p class="text-sm leading-7 text-white/80">
-                                Vérifiez que l'appareil figure sur la liste
-                                des équipements admissibles.
-                            </p>
-                        </li>
-
-                        <li class="flex gap-4">
-                            <span
-                                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-lime font-bold text-forest">2</span>
-                            <p class="text-sm leading-7 text-white/80">
-                                Vérifiez les exigences relatives à l'achat,
-                                à l'installation et à l'entrepreneur.
-                            </p>
-                        </li>
-
-                        <li class="flex gap-4">
-                            <span
-                                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-lime font-bold text-forest">3</span>
-                            <p class="text-sm leading-7 text-white/80">
-                                Conservez les factures et les documents
-                                demandés par le programme.
-                            </p>
-                        </li>
-
-                        <li class="flex gap-4">
-                            <span
-                                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-lime font-bold text-forest">4</span>
-                            <p class="text-sm leading-7 text-white/80">
-                                Consultez les modalités officielles et
-                                transmettez votre demande dans le délai applicable.
-                            </p>
-                        </li>
-                    </ol>
-
-                    <p class="mt-6 border-t border-white/20 pt-5 text-sm leading-7 text-white/70">
-                        Le dossier mentionne un délai maximal de neuf mois
-                        après l'installation. Confirmez ce délai et les conditions
-                        en vigueur sur le site officiel avant de déposer votre demande.
-                    </p>
+                <div class="qc-photo-small">
+                    <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=700&q=80"
+                         alt="Espace intérieur moderne et lumineux" loading="lazy">
                 </div>
+                <span class="qc-photo-tag">Efficacité énergétique</span>
             </div>
         </div>
     </section>
 
-
-    {{-- REMISE NATIONALE --}}
-    <section id="remise-nationale" class="scroll-mt-20 bg-white px-6 py-20">
-        <div class="mx-auto max-w-7xl">
-            <div class="overflow-hidden rounded-3xl border border-blue-100">
-                <div class="grid lg:grid-cols-[1fr_0.85fr]">
-                    <div class="p-8 sm:p-10 lg:p-12">
-                        <span class="inline-flex rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-800">
-                            Annoncée — demandes non ouvertes
-                        </span>
-
-                        <h2 class="mt-6 text-3xl font-bold text-forest sm:text-4xl">
-                            3. Remise nationale pour thermopompes
-                        </h2>
-
-                        <p class="mt-5 leading-8 text-muted">
-                            Selon le document de référence, le gouvernement fédéral
-                            a annoncé cette aide le 8 octobre 2026. Le lancement
-                            était évoqué pour le début de 2027, mais la date
-                            d'ouverture des demandes n'était pas publiée dans le dossier.
-                        </p>
-
-                        <h3 class="mt-8 text-lg font-bold text-forest">
-                            Montants annoncés
-                        </h3>
-
-                        <div class="mt-4 grid gap-4 sm:grid-cols-2">
-                            <div class="rounded-2xl bg-cream p-5">
-                                <p class="text-sm text-muted">
-                                    Ménages sous le revenu médian
-                                </p>
-                                <p class="mt-2 text-3xl font-bold text-forest">
-                                    Jusqu'à 10 000 $
-                                </p>
-                            </div>
-
-                            <div class="rounded-2xl bg-cream p-5">
-                                <p class="text-sm text-muted">
-                                    Autres propriétaires admissibles
-                                </p>
-                                <p class="mt-2 text-3xl font-bold text-forest">
-                                    2 000 $
-                                </p>
-                            </div>
-                        </div>
-
-                        <h3 class="mt-8 text-lg font-bold text-forest">
-                            Éléments mentionnés dans l'annonce
-                        </h3>
-
-                        <ul class="mt-4 space-y-3 text-sm leading-7 text-muted">
-                            <li>• La thermopompe doit figurer sur la liste des produits admissibles.</li>
-                            <li>• Le dossier annonce une procédure en ligne et une approbation en 24 heures.</li>
-                            <li>• Un cumul avec des programmes provinciaux est annoncé comme possible.</li>
-                        </ul>
-                    </div>
-
-                    <div class="flex flex-col justify-center bg-blue-50 p-8 sm:p-10 lg:p-12">
-                        <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-3xl shadow-sm">
-                            ⚠️
-                        </div>
-
-                        <h3 class="mt-6 text-2xl font-bold text-forest">
-                            Ne la considérez pas encore comme disponible
-                        </h3>
-
-                        <p class="mt-4 leading-8 text-muted">
-                            Une annonce ne signifie pas que les demandes sont ouvertes.
-                            Le seuil de revenu, le portail et la date officielle
-                            de lancement doivent être confirmés.
-                        </p>
-
-                        <p class="mt-5 text-sm leading-7 text-muted">
-                            Consultez les communications officielles du gouvernement
-                            du Canada avant de prendre une décision financière.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    {{-- PROGRAMMES FERMES --}}
-    <section class="bg-cream px-6 py-20">
-        <div class="mx-auto max-w-7xl">
-            <div class="max-w-3xl">
-                <span class="text-sm font-bold uppercase tracking-widest text-forest">
-                    À connaître
-                </span>
-
-                <h2 class="mt-3 text-3xl font-bold text-forest sm:text-4xl">
-                    4. Programmes fermés ou à vérifier
-                </h2>
-
-                <p class="mt-5 leading-8 text-muted">
-                    Certains programmes connus ne doivent pas être présentés
-                    comme accessibles aux nouvelles demandes sans confirmation officielle.
-                </p>
-            </div>
-
-            <div class="mt-8 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm">
-                <div class="overflow-x-auto">
-                    <table class="w-full min-w-[550px] text-left">
-                        <thead class="bg-forest text-white">
-                            <tr>
-                                <th class="px-6 py-4 text-sm font-semibold">Programme</th>
-                                <th class="px-6 py-4 text-sm font-semibold">Statut indiqué</th>
-                            </tr>
-                        </thead>
-
-                        <tbody class="divide-y divide-gray-100">
-                            <tr>
-                                <td class="px-6 py-5 font-medium text-forest">
-                                    Subvention canadienne pour des maisons plus vertes
-                                </td>
-                                <td class="px-6 py-5">
-                                    <span class="rounded-full bg-red-100 px-3 py-1 text-sm font-semibold text-red-800">
-                                        Fermée
-                                    </span>
-                                    <p class="mt-2 text-sm text-muted">
-                                        Fin indiquée : 31 décembre 2025.
-                                    </p>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="px-6 py-5 font-medium text-forest">
-                                    Prêt canadien pour des maisons plus vertes
-                                </td>
-                                <td class="px-6 py-5">
-                                    <span class="rounded-full bg-red-100 px-3 py-1 text-sm font-semibold text-red-800">
-                                        Nouvelles approbations fermées
-                                    </span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="px-6 py-5 font-medium text-forest">
-                                    Chauffez vert (Québec)
-                                </td>
-                                <td class="px-6 py-5">
-                                    <span class="rounded-full bg-red-100 px-3 py-1 text-sm font-semibold text-red-800">
-                                        Fermé
-                                    </span>
-                                    <p class="mt-2 text-sm text-muted">
-                                        Date indiquée dans le dossier : 31 mars 2026.
-                                    </p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <p class="border-t border-gray-100 px-6 py-4 text-xs leading-6 text-muted">
-                    Ces statuts proviennent du document de travail daté du 29 octobre 2026.
-                    Vérifiez toujours les pages officielles pour connaître les éventuelles mises à jour.
-                </p>
-            </div>
-        </div>
-    </section>
-
-
-    {{-- CONSEILS --}}
-    <section class="bg-white px-6 py-20">
-        <div class="mx-auto max-w-7xl">
-            <div class="grid gap-10 lg:grid-cols-2">
+    <section class="qc-section" aria-labelledby="logisvert-amounts-title">
+        <div class="qc-container">
+            <div class="qc-section-head">
                 <div>
-                    <span class="text-sm font-bold uppercase tracking-widest text-forest">
-                        Avant de commencer
-                    </span>
-
-                    <h2 class="mt-3 text-3xl font-bold text-forest sm:text-4xl">
-                        3 réflexes pour éviter les mauvaises surprises
-                    </h2>
-
-                    <p class="mt-5 leading-8 text-muted">
-                        Avant de signer un contrat ou d'engager des travaux,
-                        prenez le temps de vérifier votre situation et les
-                        exigences du programme concerné.
-                    </p>
+                    <span class="qc-eyebrow">LogisVert</span>
+                    <h2 id="logisvert-amounts-title">Exemples de montants par catégorie</h2>
                 </div>
+                <p>Les montants ci-dessous sont calculés par tranche de 1 000 BTU/h à −8 °C pour les catégories de thermopompes concernées, conformément au document de travail. Confirmez la catégorie officielle de votre appareil.</p>
+            </div>
+            <div class="qc-table-wrap">
+                <table class="qc-table">
+                    <thead><tr><th>Mesure</th><th>Montant indiqué</th><th>Précision</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Thermopompe ENERGY STAR</strong></td><td>50 $</td><td>Par 1 000 BTU/h à −8 °C</td></tr>
+                        <tr><td><strong>Thermopompe pour climat froid</strong></td><td>120 $</td><td>Par 1 000 BTU/h à −8 °C</td></tr>
+                        <tr><td><strong>Thermopompe à très haute efficacité</strong></td><td>140 $</td><td>Par 1 000 BTU/h à −8 °C</td></tr>
+                        <tr><td><strong>Multilogement en zone défavorisée</strong></td><td>220 $</td><td>Par 1 000 BTU/h à −8 °C</td></tr>
+                        <tr><td><strong>Nouvelle géothermie</strong></td><td>750 $</td><td>Par 1 000 BTU/h à −8 °C</td></tr>
+                        <tr><td><strong>Remplacement d’un système géothermique</strong></td><td>250 $</td><td>Par 1 000 BTU/h à −8 °C; plafond indiqué de 18 000 $</td></tr>
+                        <tr><td><strong>Isolation du toit avec calfeutrage</strong></td><td>1 500 $</td><td>Critères de résistance thermique et d’admissibilité à confirmer</td></tr>
+                        <tr><td><strong>Cuisinière à induction</strong></td><td>250 $</td><td>Selon les conditions LogisVert en vigueur</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="qc-table-note">Cette liste est un résumé éditorial, pas une décision d’admissibilité. Les mesures et barèmes peuvent évoluer; vérifiez toujours la page officielle d’Hydro‑Québec avant l’achat.</p>
+        </div>
+    </section>
 
-                <div class="space-y-5">
-                    <article class="flex gap-4 rounded-2xl bg-cream p-5">
-                        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-lime/40 text-xl">
-                            ✓
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-forest">
-                                Vérifiez les conditions officielles
-                            </h3>
-                            <p class="mt-2 text-sm leading-7 text-muted">
-                                Confirmez les travaux admissibles, les montants,
-                                les dates et les documents nécessaires.
-                            </p>
-                        </div>
-                    </article>
-
-                    <article class="flex gap-4 rounded-2xl bg-cream p-5">
-                        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-lime/40 text-xl">
-                            🧾
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-forest">
-                                Gardez vos justificatifs
-                            </h3>
-                            <p class="mt-2 text-sm leading-7 text-muted">
-                                Conservez les factures, les preuves d'achat
-                                et les documents demandés.
-                            </p>
-                        </div>
-                    </article>
-
-                    <article class="flex gap-4 rounded-2xl bg-cream p-5">
-                        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-lime/40 text-xl">
-                            🛡️
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-forest">
-                                Méfiez-vous des promesses de subvention
-                            </h3>
-                            <p class="mt-2 text-sm leading-7 text-muted">
-                                Ne payez pas un intermédiaire qui promet de
-                                garantir une aide. Adressez-vous à l'organisme officiel.
-                            </p>
-                        </div>
-                    </article>
+    {{-- FEDERAL --}}
+    <section class="qc-section qc-section-white" id="federal">
+        <div class="qc-container">
+            <div class="qc-photo-banner">
+                <span class="qc-eyebrow" style="color: var(--qc-lime);">03 · Programme fédéral</span>
+                <h2>La Remise nationale pour thermopompes a été annoncée, mais n’est pas ouverte.</h2>
+                <p>Le gouvernement fédéral a annoncé en octobre 2026 une remise pouvant atteindre 10 000 $ pour certains ménages sous le revenu médian et 2 000 $ pour d’autres propriétaires admissibles. À la date de vérification du 29 octobre 2026, les demandes ne sont pas ouvertes et les détails de lancement doivent être suivis sur Canada.ca.</p>
+                <div class="qc-hero-actions">
+                    <a class="qc-btn qc-btn-primary" href="https://www.canada.ca/fr/innovation-sciences-developpement-economique/nouvelles/2026/10/le-secretaire-detat-belanger-souligne-linstauration-de-mesures-visant-a-reduire-les-couts-energetiques-domiciliaires-et-a-ameliorer-lefficacite-ene.html" target="_blank" rel="noopener noreferrer">Lire l’annonce fédérale ↗</a>
+                </div>
+            </div>
+            <div class="qc-alert" role="note">
+                <span aria-hidden="true">!</span>
+                <div><strong>Ne considérez pas cette remise comme disponible avant l’ouverture officielle.</strong>
+                    Le statut présenté ici est « Annoncé », et non « Ouvert ». Les montants annoncés ne garantissent pas votre admissibilité.
                 </div>
             </div>
         </div>
     </section>
 
-
-    {{-- CTA --}}
-    <section class="bg-forest px-6 py-16 text-white sm:py-20">
-        <div class="mx-auto max-w-5xl text-center">
-            <span class="inline-flex rounded-full bg-white/10 px-4 py-2 text-sm text-white/80">
-                Continuez votre recherche
-            </span>
-
-            <h2 class="mt-5 text-3xl font-bold sm:text-4xl">
-                Trouvez les programmes adaptés à vos travaux
-            </h2>
-
-            <p class="mx-auto mt-5 max-w-2xl leading-8 text-white/75">
-                Consultez les programmes répertoriés et comparez les informations
-                disponibles avant de contacter l'organisme responsable.
-            </p>
-
-            <div class="mt-8 flex flex-wrap justify-center gap-4">
-                <a href="{{ route('programmes') }}"
-                    class="inline-flex items-center rounded-xl bg-lime px-6 py-3 font-semibold text-forest transition hover:opacity-90">
-                    Explorer les programmes
-                    <span class="ml-2" aria-hidden="true">→</span>
-                </a>
-
-                <a href="{{ route('home') }}"
-                    class="inline-flex items-center rounded-xl border border-white/30 px-6 py-3 font-semibold text-white transition hover:bg-white/10">
-                    Retour à l'accueil
-                </a>
+    {{-- STEPS --}}
+    <section class="qc-section">
+        <div class="qc-container">
+            <div class="qc-section-head">
+                <div>
+                    <span class="qc-eyebrow">Avant de commencer</span>
+                    <h2>Trois étapes pour éviter les mauvaises surprises.</h2>
+                </div>
+                <p>Les programmes ont leurs propres critères. Faites vos vérifications avant d’acheter l’équipement ou de commencer les travaux.</p>
+            </div>
+            <div class="qc-steps">
+                <article class="qc-step"><div class="qc-step-number">01</div><h3>Identifiez les travaux</h3><p>Isolation, fenêtres, thermopompe ou adaptation aux inondations : chaque mesure relève de critères spécifiques.</p></article>
+                <article class="qc-step"><div class="qc-step-number">02</div><h3>Vérifiez le programme</h3><p>Consultez la page officielle, les conditions, les équipements admissibles et le statut de la demande.</p></article>
+                <article class="qc-step"><div class="qc-step-number">03</div><h3>Gardez vos preuves</h3><p>Conservez contrats, factures détaillées, preuves d’achat et documents de l’entrepreneur.</p></article>
             </div>
         </div>
     </section>
 
+    {{-- CLOSED PROGRAMS --}}
+    <section class="qc-section qc-section-white" id="programmes-fermes">
+        <div class="qc-container">
+            <div class="qc-section-head">
+                <div>
+                    <span class="qc-eyebrow">À ne pas confondre</span>
+                    <h2>Programmes fermés aux nouvelles demandes</h2>
+                </div>
+                <p>Ces programmes ne doivent pas être présentés comme des aides actuellement ouvertes aux nouvelles demandes.</p>
+            </div>
+            <div class="qc-closed-grid">
+                <article class="qc-closed-card">
+                    <span class="qc-status qc-status-closed">Fermé</span>
+                    <h3>Subvention canadienne pour des maisons plus vertes</h3>
+                    <p>Le programme est fermé. La date limite de téléversement des documents indiquée dans le dossier est le 31 décembre 2025.</p>
+                    <a class="qc-card-link" href="https://www.quebec.ca/habitation-territoire/chauffage-consommation-energie/aide-financiere-renovation-ecoenergetique/renoclimat/a-propos" target="_blank" rel="noopener noreferrer">Détails officiels ↗</a>
+                </article>
+                <article class="qc-closed-card">
+                    <span class="qc-status qc-status-closed">Fermé</span>
+                    <h3>Prêt canadien pour des maisons plus vertes</h3>
+                    <p>Le programme n’accepte plus de nouvelles demandes ou approbations selon les informations officielles indiquées dans le dossier.</p>
+                    <a class="qc-card-link" href="https://www.canada.ca/fr/ressources-naturelles-canada/services/financement-subventions/maisons-plus-vertes/pret-canadien-maisons-plus-vertes.html" target="_blank" rel="noopener noreferrer">Détails officiels ↗</a>
+                </article>
+                <article class="qc-closed-card">
+                    <span class="qc-status qc-status-closed">Fermé</span>
+                    <h3>Chauffez vert</h3>
+                    <p>Le programme québécois est indiqué comme fermé depuis le 31 mars 2026 dans le document de contenu du portail.</p>
+                    <a class="qc-card-link" href="https://www.quebec.ca/habitation-territoire/chauffage-consommation-energie/aide-financiere-renovation-ecoenergetique" target="_blank" rel="noopener noreferrer">Vérifier sur Québec.ca ↗</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    {{-- FAQ --}}
+    <section class="qc-section" id="faq">
+        <div class="qc-container">
+            <div class="qc-section-head">
+                <div>
+                    <span class="qc-eyebrow">Questions fréquentes</span>
+                    <h2>Les réponses essentielles avant vos rénovations.</h2>
+                </div>
+            </div>
+            <div class="qc-faq">
+                <details>
+                    <summary>Quelle aide regarder pour isoler une maison au Québec ?</summary>
+                    <p>Rénoclimat est le programme principal présenté dans le dossier pour l’isolation du toit, des murs extérieurs et des fondations. Les montants et critères doivent être confirmés dans le Guide du participant officiel.</p>
+                </details>
+                <details>
+                    <summary>Rénoclimat finance-t-il les thermopompes ?</summary>
+                    <p>Selon le cahier des charges, les thermopompes, climatiseurs et systèmes géothermiques ne sont pas admissibles à Rénoclimat. Vérifiez les aides applicables auprès d’Hydro‑Québec, notamment LogisVert.</p>
+                </details>
+                <details>
+                    <summary>La Remise nationale pour thermopompes est-elle ouverte ?</summary>
+                    <p>Non selon les informations vérifiées le 29 octobre 2026 : le programme a été annoncé, mais les demandes ne sont pas encore ouvertes. Consultez Canada.ca pour toute mise à jour officielle.</p>
+                </details>
+                <details>
+                    <summary>Puis-je cumuler plusieurs programmes ?</summary>
+                    <p>Ne présumez pas que le cumul est autorisé. Vérifiez les règles de chaque programme et les conditions applicables aux mêmes travaux avant de vous engager.</p>
+                </details>
+                <details>
+                    <summary>ÉcoAides Canada est-il un site gouvernemental ?</summary>
+                    <p>Non. ÉcoAides Canada est un portail d’information indépendant. Il ne dépose aucune demande à votre place et ne garantit aucune aide financière.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    {{-- OFFICIAL SOURCES --}}
+    <section class="qc-section qc-section-white" id="sources">
+        <div class="qc-container">
+            <div class="qc-section-head">
+                <div>
+                    <span class="qc-eyebrow">Transparence</span>
+                    <h2>Consultez toujours les sources officielles.</h2>
+                </div>
+                <p>Les statuts et montants peuvent changer. Les pages officielles priment sur ce résumé.</p>
+            </div>
+            <div class="qc-sources">
+                <a class="qc-source-link" href="https://www.quebec.ca/habitation-territoire/chauffage-consommation-energie/aide-financiere-renovation-ecoenergetique/renoclimat/nouveautes-adaptation-inondations" target="_blank" rel="noopener noreferrer">Québec.ca · Rénoclimat ↗</a>
+                <a class="qc-source-link" href="https://www.quebec.ca/habitation-territoire/chauffage-consommation-energie/aide-financiere-renovation-ecoenergetique/renoclimat/aide-financiere" target="_blank" rel="noopener noreferrer">Québec.ca · Montants ↗</a>
+                <a class="qc-source-link" href="https://www.hydroquebec.com/residentiel/mieux-consommer/aides-financieres/logisvert/" target="_blank" rel="noopener noreferrer">Hydro‑Québec · LogisVert ↗</a>
+                <a class="qc-source-link" href="https://www.canada.ca/fr/innovation-sciences-developpement-economique/nouvelles/2026/10/le-secretaire-detat-belanger-souligne-linstauration-de-mesures-visant-a-reduire-les-couts-energetiques-domiciliaires-et-a-ameliorer-lefficacite-ene.html" target="_blank" rel="noopener noreferrer">Canada.ca · Remise nationale ↗</a>
+            </div>
+            <div class="qc-last-update">
+                <span>Dernière vérification éditoriale indiquée : 29 octobre 2026</span>
+                <span>Portail indépendant · Montants et critères à confirmer auprès des organismes responsables</span>
+            </div>
+        </div>
+    </section>
+
+    {{-- FINAL CTA --}}
+    <section class="qc-bottom-cta">
+        <div class="qc-container qc-bottom-cta-inner">
+            <div>
+                <h2>Vous avez un projet de rénovation ?</h2>
+                <p>Commencez par vérifier les critères officiels correspondant à vos travaux.</p>
+            </div>
+            <a class="qc-btn" href="{{ url('/sources-officielles') }}">Voir toutes les sources <span aria-hidden="true">↗</span></a>
+        </div>
+    </section>
+</main>
 @endsection
