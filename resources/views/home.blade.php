@@ -37,16 +37,144 @@
             letter-spacing: .03em;
         }
 
+        /* =====================================================
+           HERO — PHOTO DE FOND + ZOOM LENT + FUMÉE VERTE
+           ===================================================== */
         .home-page .hero {
             position: relative;
-            padding: 76px 0 68px;
+            isolation: isolate;
+            overflow: hidden;
+            padding: 88px 0 76px;
+            min-height: 570px;
+            display: flex;
+            align-items: center;
+            background: #0B3D31;
+        }
+
+        /* Image grand format du Hero — changement limité à cette section */
+        .home-page .hero-image-layer {
+            position: absolute;
+            z-index: 0;
+            inset: -24px;
+            background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2400&q=90');
+            background-position: center 56%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            transform: scale(1.03);
+            will-change: transform;
+            animation: ecoHeroPhotoZoom 24s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        /* Overlay vert pour garder le texte lisible */
+        .home-page .hero-image-layer::after {
+            content: "";
+            position: absolute;
+            inset: 0;
             background:
-                radial-gradient(circle at 88% 18%, rgba(217, 242, 126, .18), transparent 28%),
-                radial-gradient(circle at 8% 95%, rgba(40, 122, 88, .13), transparent 30%),
-                linear-gradient(135deg, #F7F9F4 0%, #FFFFFF 58%, #F1F6E8 100%);
+                linear-gradient(90deg,
+                    rgba(5, 39, 31, .94) 0%,
+                    rgba(7, 55, 42, .84) 39%,
+                    rgba(9, 54, 42, .58) 68%,
+                    rgba(8, 43, 34, .36) 100%),
+                linear-gradient(0deg,
+                    rgba(5, 38, 30, .28) 0%,
+                    transparent 46%,
+                    rgba(5, 38, 30, .12) 100%);
+            pointer-events: none;
+        }
+
+        /* Fumée verte diffuse — couche 1 */
+        .home-page .hero::before {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+            width: 78%;
+            height: 95%;
+            top: -22%;
+            left: -18%;
+            border-radius: 50%;
+            background: radial-gradient(ellipse at center,
+                    rgba(133, 219, 151, .36) 0%,
+                    rgba(67, 160, 105, .23) 37%,
+                    rgba(40, 122, 88, .10) 58%,
+                    transparent 75%);
+            filter: blur(48px);
+            opacity: .8;
+            will-change: transform, opacity;
+            animation: ecoSmokeOne 17s ease-in-out infinite alternate;
+        }
+
+        /* Brume verte en mouvement — couche 2 */
+        .home-page .hero::after {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+            width: 72%;
+            height: 82%;
+            right: -20%;
+            bottom: -31%;
+            border-radius: 50%;
+            background: radial-gradient(ellipse at center,
+                    rgba(202, 239, 147, .30) 0%,
+                    rgba(73, 167, 112, .20) 39%,
+                    rgba(31, 107, 73, .10) 59%,
+                    transparent 76%);
+            filter: blur(55px);
+            opacity: .78;
+            will-change: transform, opacity;
+            animation: ecoSmokeTwo 21s ease-in-out infinite alternate;
+        }
+
+        @keyframes ecoHeroPhotoZoom {
+            0% {
+                transform: scale(1.03) translate3d(-.4%, 0, 0);
+            }
+
+            100% {
+                transform: scale(1.13) translate3d(.5%, -0.4%, 0);
+            }
+        }
+
+        @keyframes ecoSmokeOne {
+            0% {
+                transform: translate3d(-3%, 0, 0) scale(.92);
+                opacity: .48;
+            }
+
+            50% {
+                transform: translate3d(9%, 8%, 0) scale(1.12);
+                opacity: .86;
+            }
+
+            100% {
+                transform: translate3d(18%, -5%, 0) scale(1.18);
+                opacity: .60;
+            }
+        }
+
+        @keyframes ecoSmokeTwo {
+            0% {
+                transform: translate3d(0, 0, 0) scale(1);
+                opacity: .42;
+            }
+
+            50% {
+                transform: translate3d(-11%, -8%, 0) scale(1.14);
+                opacity: .80;
+            }
+
+            100% {
+                transform: translate3d(-19%, 7%, 0) scale(.96);
+                opacity: .56;
+            }
         }
 
         .home-page .hero-grid {
+            position: relative;
+            z-index: 2;
             display: grid;
             grid-template-columns: minmax(0, 1.12fr) minmax(320px, .88fr);
             align-items: center;
@@ -56,7 +184,7 @@
         .home-page .hero h1 {
             max-width: 760px;
             margin: 22px 0 20px;
-            color: #123C32;
+            color: #FFFFFF;
             font-size: clamp(36px, 4.5vw, 59px);
             font-weight: 800;
             letter-spacing: -.045em;
@@ -64,14 +192,88 @@
         }
 
         .home-page .hero h1 span {
-            color: #287A58;
+            display: inline;
+            color: #D9F27E;
+            background: linear-gradient(100deg,
+                    #D9F27E 0%,
+                    #D9F27E 35%,
+                    #FFFFFF 50%,
+                    #D9F27E 65%,
+                    #D9F27E 100%);
+            background-size: 220% auto;
+            background-position: 100% center;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: ecoHeadlineShimmer 6s ease-in-out infinite;
+        }
+
+        /* Animation du texte qui apparaît sur la photo */
+        .home-page .hero .eyebrow {
+            animation: ecoTextEnter .75s .05s ease-out both;
+        }
+
+        .home-page .hero h1 {
+            animation: ecoTextEnter .9s .18s ease-out both;
+            text-shadow: 0 3px 24px rgba(0, 0, 0, .16);
+        }
+
+        .home-page .hero-copy {
+            animation: ecoTextEnter .9s .32s ease-out both;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, .16);
+        }
+
+        .home-page .hero .hero-actions {
+            animation: ecoTextEnter .9s .46s ease-out both;
+        }
+
+        .home-page .hero .last-updated {
+            animation: ecoTextEnter .9s .60s ease-out both;
+        }
+
+        @keyframes ecoTextEnter {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+                filter: blur(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        /* Reflet lumineux animé sur la phrase verte du titre */
+        @keyframes ecoHeadlineShimmer {
+
+            0%,
+            20% {
+                background-position: 100% center;
+            }
+
+            65%,
+            100% {
+                background-position: 0% center;
+            }
         }
 
         .home-page .hero-copy {
             max-width: 650px;
-            color: #68756D;
+            color: rgba(255, 255, 255, .91);
             font-size: 16px;
             line-height: 1.9;
+        }
+
+        .home-page .hero .eyebrow {
+            color: #F0FFD5;
+            background: rgba(22, 75, 52, .48);
+            border-color: rgba(217, 242, 126, .48);
+        }
+
+        .home-page .hero .last-updated {
+            color: rgba(255, 255, 255, .88);
         }
 
         .home-page .hero-actions {
@@ -604,6 +806,165 @@
             line-height: 1.7;
         }
 
+
+
+        /* =====================================================
+           ANIMATION DES SECTIONS AU DÉFILEMENT
+           ===================================================== */
+        .home-page .reveal-ready {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .home-page .reveal-ready.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .home-page .program-card:nth-child(2),
+        .home-page .topic-card:nth-child(2),
+        .home-page .how-step:nth-child(2) {
+            transition-delay: .10s;
+        }
+
+        .home-page .program-card:nth-child(3),
+        .home-page .topic-card:nth-child(3),
+        .home-page .how-step:nth-child(3) {
+            transition-delay: .20s;
+        }
+
+        .home-page .topic-card:nth-child(4) {
+            transition-delay: .30s;
+        }
+
+        /* =====================================================
+           INSPIRATION GREENOZA — PHOTOS DANS LES CARTES
+           Les photos ajoutent une dimension visuelle sans modifier
+           le contenu, les liens ou la structure des sections existantes.
+           ===================================================== */
+
+        .home-page .program-card {
+            overflow: hidden;
+            border-radius: 22px;
+            padding-bottom: 25px;
+            box-shadow: 0 12px 32px rgba(18, 60, 50, .055);
+        }
+
+        .home-page .program-card>h3,
+        .home-page .program-card>p,
+        .home-page .program-card>.program-amount,
+        .home-page .program-card>.text-link,
+        .home-page .program-card>.program-card-top {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .home-page .program-card-photo,
+        .home-page .topic-image {
+            background-color: #E8F0E7;
+        }
+
+        .home-page .program-card-photo {
+            position: relative;
+            height: 184px;
+            margin: -25px -25px 22px;
+            overflow: hidden;
+            border-radius: 18px 18px 0 0;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            isolation: isolate;
+            transition: filter .5s ease;
+        }
+
+        .home-page .program-card-photo::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(12, 49, 37, .02) 35%, rgba(12, 49, 37, .48) 100%);
+            pointer-events: none;
+        }
+
+        .home-page .program-photo-renoclimat {
+            background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85');
+        }
+
+        .home-page .program-photo-logisvert {
+            background-image: url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1000&q=85');
+        }
+
+        .home-page .program-photo-thermopompe {
+            background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1000&q=85');
+        }
+
+        .home-page .program-card:hover .program-card-photo {
+            filter: saturate(1.12);
+        }
+
+        .home-page .topic-card {
+            overflow: hidden;
+        }
+
+        .home-page .topic-image {
+            position: relative;
+            width: calc(100% + 42px);
+            height: 152px;
+            margin: -21px -21px 18px;
+            overflow: hidden;
+            border-radius: 16px 16px 0 0;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            transition: filter .35s ease;
+        }
+
+        .home-page .topic-image::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(12, 49, 37, .02) 35%, rgba(12, 49, 37, .30) 100%);
+            pointer-events: none;
+        }
+
+        .home-page .topic-image-thermopompes {
+            background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=900&q=85');
+        }
+
+        .home-page .topic-image-isolation {
+            background-image: url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=85');
+        }
+
+        .home-page .topic-image-fenetres {
+            background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=85');
+        }
+
+        .home-page .topic-image-revenus {
+            background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=85');
+        }
+
+        .home-page .topic-card:hover .topic-image {
+            filter: saturate(1.15) contrast(1.03);
+        }
+
+        /* Une apparition légère des photos au chargement */
+        .home-page .program-card-photo,
+        .home-page .topic-image {
+            animation: ecoPhotoReveal .8s ease-out both;
+        }
+
+        @keyframes ecoPhotoReveal {
+            from {
+                opacity: .65;
+                transform: scale(1.025);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
         @media (max-width: 950px) {
             .home-page .hero-grid {
                 grid-template-columns: 1fr;
@@ -633,7 +994,19 @@
             }
 
             .home-page .hero {
-                padding: 48px 0 45px;
+                min-height: auto;
+                padding: 52px 0 46px;
+            }
+
+            .home-page .hero-image-layer {
+                background-position: 62% center;
+            }
+
+            .home-page .hero::before,
+            .home-page .hero::after {
+                width: 110%;
+                height: 70%;
+                filter: blur(40px);
             }
 
             .home-page .hero h1 {
@@ -688,6 +1061,15 @@
                 padding: 21px;
             }
 
+            .home-page .program-card-photo {
+                height: 165px;
+                margin: -21px -21px 18px;
+            }
+
+            .home-page .topic-image {
+                height: 135px;
+            }
+
             .home-page .method-panel {
                 grid-template-columns: 1fr;
                 padding: 24px;
@@ -699,6 +1081,31 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
+
+            .home-page .hero,
+            .home-page .hero-image-layer,
+            .home-page .hero::before,
+            .home-page .hero::after,
+            .home-page .hero .eyebrow,
+            .home-page .hero h1,
+            .home-page .hero h1 span,
+            .home-page .hero-copy,
+            .home-page .hero .hero-actions,
+            .home-page .hero .last-updated {
+                animation: none !important;
+            }
+
+            .home-page .hero h1 span {
+                color: #D9F27E;
+                background: none;
+                -webkit-text-fill-color: currentColor;
+            }
+
+            .home-page .reveal-ready,
+            .home-page .reveal-ready.is-visible {
+                opacity: 1;
+                transform: none;
+            }
 
             .home-page *,
             .home-page *::before,
@@ -714,6 +1121,7 @@
 
         {{-- HERO --}}
         <section class="hero">
+            <div class="hero-image-layer" aria-hidden="true"></div>
             <div class="home-container hero-grid">
                 <div>
                     <span class="eyebrow">
@@ -881,6 +1289,8 @@
 
                 <div class="program-grid">
                     <article class="program-card">
+                        <div class="program-card-photo program-photo-renoclimat" role="img"
+                            aria-label="Maison résidentielle rénovée pour améliorer son efficacité énergétique"></div>
                         <div class="program-card-top">
                             <div class="program-icon" aria-hidden="true">
                                 <svg width="25" height="25" viewBox="0 0 24 24" fill="none"
@@ -906,6 +1316,8 @@
                     </article>
 
                     <article class="program-card">
+                        <div class="program-card-photo program-photo-logisvert" role="img"
+                            aria-label="Panneaux solaires et production d’énergie propre"></div>
                         <div class="program-card-top">
                             <div class="program-icon" aria-hidden="true">
                                 <svg width="25" height="25" viewBox="0 0 24 24" fill="none"
@@ -930,6 +1342,8 @@
                     </article>
 
                     <article class="program-card">
+                        <div class="program-card-photo program-photo-thermopompe" role="img"
+                            aria-label="Équipement de chauffage électrique à haute efficacité"></div>
                         <div class="program-card-top">
                             <div class="program-icon" aria-hidden="true">
                                 <svg width="25" height="25" viewBox="0 0 24 24" fill="none"
@@ -954,20 +1368,6 @@
                     </article>
                 </div>
 
-                <div class="warning-box" role="note">
-                    <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
-                        style="flex-shrink:0">
-                        <path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z" />
-                        <path d="M12 9v4m0 3h.01" />
-                    </svg>
-                    <div>
-                        <strong>Attention aux programmes fermés</strong>
-                        <p>Selon le dossier fourni, la Subvention canadienne pour des maisons plus vertes est fermée et le
-                            programme Chauffez vert est indiqué comme fermé depuis le 31 mars 2026. Vérifiez toujours le
-                            statut actuel sur le site officiel avant d'engager des dépenses.</p>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -985,6 +1385,8 @@
 
                 <div class="topics-grid">
                     <a href="{{ url('/thermopompes') }}" class="topic-card">
+                        <div class="topic-image topic-image-thermopompes" role="img"
+                            aria-label="Équipement de chauffage et de rénovation énergétique"></div>
                         <div class="topic-icon" aria-hidden="true">
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -998,6 +1400,8 @@
                     </a>
 
                     <a href="{{ url('/isolation') }}" class="topic-card">
+                        <div class="topic-image topic-image-isolation" role="img"
+                            aria-label="Travaux de rénovation et isolation du bâtiment"></div>
                         <div class="topic-icon" aria-hidden="true">
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -1012,6 +1416,8 @@
                     </a>
 
                     <a href="{{ url('/fenetres-portes') }}" class="topic-card">
+                        <div class="topic-image topic-image-fenetres" role="img"
+                            aria-label="Intérieur lumineux avec fenêtres performantes"></div>
                         <div class="topic-icon" aria-hidden="true">
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -1025,6 +1431,8 @@
                     </a>
 
                     <a href="{{ url('/faibles-revenus') }}" class="topic-card">
+                        <div class="topic-image topic-image-revenus" role="img"
+                            aria-label="Maison résidentielle rénovée"></div>
                         <div class="topic-icon" aria-hidden="true">
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -1179,5 +1587,46 @@
         </section>
 
     </div>
+
+
+    {{-- =====================================================
+     JAVASCRIPT — ANIMATION AU DÉFILEMENT
+     ===================================================== --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const homePage = document.querySelector('.home-page');
+
+            if (!homePage || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                return;
+            }
+
+            const selectors = [
+                '.section-heading', '.program-card', '.topic-card', '.how-step',
+                '.faq-item', '.method-panel', '.warning-box', '.trust-item', '.last-updated'
+            ];
+            const elements = homePage.querySelectorAll(selectors.join(','));
+
+            if (!('IntersectionObserver' in window)) {
+                return;
+            }
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.12,
+                rootMargin: '0px 0px -25px 0px'
+            });
+
+            elements.forEach(function(element) {
+                element.classList.add('reveal-ready');
+                observer.observe(element);
+            });
+        });
+    </script>
 
 @endsection
